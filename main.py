@@ -7,20 +7,20 @@ class Checker(object):
         import xml.etree.ElementTree as ET
         import urllib.request
         import urllib.error
+        import urllib.parse
         print("[Checker]: State: %s" % state)
         # noinspection PyExceptClausesOrder
-        try:
-            url = urllib.request.urlopen(
-                "https://github.com/Qboi123/Qplay-Launcher/raw/master/updates.xml"
-            )
-            output = url.read().decode()
-            self._has_internet = True
-        except urllib.error.URLError:
-            self._has_internet = False
-            return
-        except urllib.error.HTTPError:
-            self._has_internet = False
-            return
+        url = urllib.request.urlopen(
+            "https://github.com/Qboi123/Qplay-Launcher/raw/master/updates.xml"
+        )
+        output = url.read().decode()
+        self._has_internet = True
+        # except urllib.error.URLError:
+        #     self._has_internet = False
+        #     return
+        # except urllib.error.HTTPError:
+        #     self._has_internet = False
+        #     return
 
         root = ET.fromstring(output)
         for index in range(len(root)):
@@ -28,15 +28,17 @@ class Checker(object):
                 item_i = index
                 break
 
-        self.newest = root[index]
+        try:
+            self.newest = root[item_i]
+        except NameError:
+            self.newest = root[0]
+        print(self.newest)
         #
         # for index in range(len(root)-1, -1, -1):
         #     print(root[index].attrib["state"])
         #     if root[index].attrib["state"] >= state:
         #         item_i = index
         #         print(root[index].attrib)
-
-        self.newest = root[index]
         self.updates_xml = output
 
     def isNewest(self):
@@ -86,7 +88,11 @@ class Checker(object):
         return self.updates_xml
 
     def getUpdateURL(self):
-        return self.newest.attrib["url"]
+        try:
+            return self.newest.attrib["url"]
+        except AttributeError:
+            self.__init__('r')
+            return self.newest.attrib["url"]
 
 
 class Updater(wx.Panel):
@@ -128,14 +134,6 @@ class Updater(wx.Panel):
             self.extract(launcher, "%s/game" % os.getcwd().replace("\\", "/"), "Extracting Launcher",
                          "Qplay-Launcher-",
                          v, sv, r, st, stb)
-
-            add = """import sys, os
-        sys.path.append(os.getcwd().replace("\\", "/"))
-        """
-            with open("%s/game/launcher.pyw" % os.getcwd().replace("\\", "/"), "r") as file:
-                file_launcher = file.read()
-            with open("%s/game/launcher.pyw" % os.getcwd().replace("\\", "/"), "w+") as file:
-                file.write(add + file_launcher)
             with open("%s/game/downloaded" % os.getcwd().replace("\\", "/"), "w+") as file:
                 file.write("True")
         if not os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")):
@@ -202,7 +200,7 @@ runtime/winsound.pyd"""
 
             for file in dlls:
                 dst = file.replace("runtime/", "runtime/DLLs/")
-                shutil.copy(("%s/"+file) % os.getcwd().replace("\\", "/"), ("%s/"+dst+file) % os.getcwd().replace("\\", "/"))
+                shutil.copy(("%s/"+file) % os.getcwd().replace("\\", "/"), ("%s/"+dst) % os.getcwd().replace("\\", "/"))
             self.load.Update(81, "Installing...\nInstalling Pip")
 
 
@@ -233,13 +231,12 @@ runtime/winsound.pyd"""
 
         if not os.path.exists("%s/game/patched" % os.getcwd().replace("\\", "/")):
             print("[Updater]: Patching Launcher")
-
             add = """import sys, os
-    sys.path.append(os.getcwd().replace("\\", "/"))
-    """
+sys.path.append(os.getcwd().replace("\\\\", "/"))
+"""
             with open("%s/game/launcher.pyw" % os.getcwd().replace("\\", "/"), "r") as file:
                 file_launcher = file.read()
-            with open("%s/game/launcher.pyw" % os.getcwd().replace("\\", "/"), "r") as file:
+            with open("%s/game/launcher.pyw" % os.getcwd().replace("\\", "/"), "w+") as file:
                 file.write(add + file_launcher)
             with open("%s/game/patched" % os.getcwd().replace("\\", "/"), "w+") as file:
                 file.write("True")

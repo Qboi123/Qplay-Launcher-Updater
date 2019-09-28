@@ -3,3 +3,7 @@ logs
 runtime
 game
 temp
+bin
+*.pkg
+*.pyz
+*.pyc
