@@ -201,8 +201,8 @@ runtime/winsound.pyd"""
                 self.load.Update(70, "Installing...\nInstalling Pip")
 
             for file in dlls:
-                dst = file.replace("%s/runtime/", "%s/runtime/DLLs/")
-                shutil.copy(("%s/"+file) % os.getcwd().replace("\\", "/"), ("%s/"+dst) % os.getcwd().replace("\\", "/"))
+                dst = file.replace("runtime/", "runtime/DLLs/")
+                shutil.copy(("%s/"+file) % os.getcwd().replace("\\", "/"), ("%s/"+dst+file) % os.getcwd().replace("\\", "/"))
             self.load.Update(81, "Installing...\nInstalling Pip")
 
 
