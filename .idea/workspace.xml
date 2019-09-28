@@ -4,11 +4,7 @@
     <option name="SCOPE_TYPE" value="3" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f01504ef-4aa0-4cdb-b8c9-b8f5146debd5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-    </list>
+    <list default="true" id="f01504ef-4aa0-4cdb-b8c9-b8f5146debd5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,9 +114,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-12" />
-    <option name="y" value="142" />
-    <option name="width" value="763" />
+    <option name="x" value="-7" />
+    <option name="width" value="974" />
     <option name="height" value="1047" />
   </component>
   <component name="ProjectView">
@@ -128,7 +123,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -144,6 +138,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -330,36 +325,16 @@
     <entry file="file://$PROJECT_DIR$/runtime/tkinter/__init__.py" />
     <entry file="file://$PROJECT_DIR$/runtime/Lib/site-packages/threadsafe_tkinter/__init__.py" />
     <entry file="file://$PROJECT_DIR$/game/launcher.pyw" />
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4ef1.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4e81.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4e79.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d53.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d27.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d24.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4cea.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d1d.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stdout-5d8f4ef1.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d4e.log">
-      <provider selected="true" editor-type-id="LogFileEditorProvider" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4ef1.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4e81.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4e79.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d53.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d27.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d24.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4cea.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d1d.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stdout-5d8f4ef1.log" />
+    <entry file="file://$PROJECT_DIR$/bin/logs/stderr-5d8f4d4e.log" />
     <entry file="file://$USER_HOME$/Anaconda3/Lib/urllib/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
