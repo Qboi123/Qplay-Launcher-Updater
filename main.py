@@ -107,13 +107,13 @@ class Updater(wx.Panel):
         st = state
         stb = statebuild
 
-        if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")) or not (
-                os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
+        if (((not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/"))) or not checker.isNewest()) or
+                not (os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
                 not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
                 not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"))):
             self.load = wx.ProgressDialog("Please Wait...", "")
 
-        if not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")):
+        if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/"))) or not checker.isNewest():
             print("[Updater]: Downloading Launcher")
             launcher = self.download(url, "Downloading Launcher")
         if not os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")):
@@ -129,7 +129,7 @@ class Updater(wx.Panel):
             pip = self.download("https://bootstrap.pypa.io/get-pip.py", fp="get-pip.py",
                                 message="Downloading Pip Installer")
 
-        if not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")):
+        if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/"))) or not checker.isNewest():
             print("[Updater]: Extracting Launcher")
             self.extract(launcher, "%s/game" % os.getcwd().replace("\\", "/"), "Extracting Launcher",
                          "Qplay-Launcher-",
@@ -223,13 +223,13 @@ runtime/winsound.pyd"""
                 file.write("True")
                 file.close()
 
-            if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")) or not (
-                    os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
-                    not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
-                    not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"))):
-                self.load.Destroy()
+        if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")) or not (
+                os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
+                not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
+                not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"))):
+            self.load.Destroy()
 
-        if not os.path.exists("%s/game/patched" % os.getcwd().replace("\\", "/")):
+        if (not os.path.exists("%s/game/patched" % os.getcwd().replace("\\", "/")))  or not checker.isNewest():
             print("[Updater]: Patching Launcher")
             add = """import sys, os
 sys.path.append(os.getcwd().replace("\\\\", "/"))
