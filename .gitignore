@@ -8,3 +8,7 @@ bin
 *.pyz
 *.pyc
 obj
+bin bin
+bin bint
+bin.old
+bin2

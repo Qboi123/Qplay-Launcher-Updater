@@ -1,5 +1,8 @@
 import wx
 import wx._core
+import io
+
+from typing import Iterable, Union
 
 
 class Checker(object):
@@ -96,11 +99,8 @@ class Checker(object):
 
 
 class Updater(wx.Panel):
-    def __init__(self, parent: wx.Frame, url, xml, version, subversion, release, state, statebuild):
+    def __init__(self, url, xml, version, subversion, release, state, statebuild):
         import os
-        super().__init__(parent)
-
-        parent.Show(False)
         v = version
         sv = subversion
         r = release
@@ -292,7 +292,7 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
             print(("%s/temp/" + folder + "%s") % (os.getcwd().replace("\\", "/"), copy), dir)
             if folder == "Tkinter-Python-":
                 for item in os.listdir(("%s/temp/" + folder + "%s") % (os.getcwd().replace("\\", "/"), copy)):
-                    os.renames(("%s/temp/" + folder + "%s/" + item) % (os.getcwd().replace("\\", "/"), copy),
+                    shutil.move(("%s/temp/" + folder + "%s/" + item) % (os.getcwd().replace("\\", "/"), copy),
                                dir + "/" + item)
             else:
                 shutil.move(("%s/temp/" + folder + "%s") % (os.getcwd().replace("\\", "/"), copy), dir)
@@ -334,7 +334,6 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
             try:
                 self.load.SetRange(download.file_total_bytes + 1)
                 self.load.Update(download.file_downloaded_bytes, "Downloading...\n" + message)
-                root.Update()
             except wx._core.wxAssertionError:
                 pass
 
@@ -349,16 +348,50 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         req = requirements.replace("\n", ", ")
 
         requirements = requirements.replace("\n", " ")
-        print("Installing Packages: %s" % req)
-        application = "%s/runtime/python.exe" % os.getcwd().replace("\\", "/")
-        print("Exit Code:", os.system(application + " -m pip install " + requirements))
+        print("[Run-Pip]: Installing Packages: %s" % req)
+        application = '"%s/runtime/python.exe"' % os.getcwd().replace("\\", "/")
+        args = " -m pip install "+requirements
+        cmd = application+args
+
+        print("[Run-Pip]: %s" % cmd)
+
+        process = os.system(cmd)
+        print("[Run-Pip]: Process Returned: %s" % process)
+        if process != 0:
+            print('[Run-Pip]: Retrying with subprocess...')
+            process = subprocess.call([application, "-m", "pip", "install", *requirements.split(" ")])
+            while process is None:
+                time.sleep(1)
+            print("[Run-Pip]: Process Returned: %s" % process)
 
     def run(self):
         import os
-        print("[Run]: ")
+        # import subprocess
+
         os.chdir("%s/game" % os.getcwd().replace("\\", "/"))
-        os.system("%s/../runtime/python.exe %s/launcher.pyw" % (
-            os.getcwd().replace("\\", "/"), os.getcwd().replace("\\", "/")))
+
+        import subprocess
+        file = '%s/../runtime/python.exe' % os.getcwd().replace("\\", "/")
+        py = '%s/launcher.pyw' % os.getcwd().replace("\\", "/")
+        # print('[Run]: "{file}" "{py}"'.format(file=file, py=py))
+        cmd = '"{file}" "{py}"'.format(file=file, py=py)
+
+        print("[Run-Game]: %s" % cmd)
+
+        process = os.system(cmd)
+        print("[Run-Game]: Process Returned: %s" % process)
+        if process != 0:
+            print('[Run-Game]: Retrying with subprocess...')
+            subprocess.call([file, py])
+            while process is None:
+                time.sleep(1)
+            print("[Run-Game]: Process Returned: %s" % process)
+
+        # print("[Run]: \"%s/../runtime/python.exe\" \"%s/launcher.pyw\"" % (
+        #     os.getcwd().replace("\\", "/"), os.getcwd().replace("\\", "/")))
+        #
+        # subprocess.run(("%s/../runtime/python.exe"% os.getcwd().replace("\\", "/"),
+        #                "%s/launcher.pyw\"" % os.getcwd().replace("\\", "/")), stderr=stderr, stdout=stdout)
 
 
 class Process():
@@ -516,26 +549,41 @@ class Download:
         self.downloaded = True
 
 
-class Log(object):
+class Log(io.IOBase):
     def __init__(self, file, std, name="Out"):
         self.file = file
         self.std = std
         self.name = name
         self.old = "\n"
+        if not os.path.exists("logs"):
+            os.makedirs("logs")
 
     def write(self, o: str):
-        self.fp = open(self.file, "a+")
         if self.old[-1] == "\n":
-            self.fp.write("[" + time.ctime(time.time()) + "] [" + self.name + "]: " + o)
             self.std.write("[" + time.ctime(time.time()) + "] [" + self.name + "]: " + o)
+            self.fp = open(self.file, "a+")
+            self.fp.write("[" + time.ctime(time.time()) + "] [" + self.name + "]: " + o)
+            self.fp.close()
         else:
-            self.fp.write(o)
             self.std.write(o)
+            self.fp = open(self.file, "a+")
+            self.fp.write(o)
+            self.fp.close()
         self.old = o
-        self.fp.close()
+
+    def writelines(self, lines: Iterable[Union[bytes, bytearray]]) -> None:
+        for line in lines:
+            self.write(line)
+
+    def potato(self, exefile):
+        self.flush()
 
     def flush(self):
         pass
+
+    def fileno(self):
+        self.fp = open(self.file, "a+")
+        return self.fp.fileno()
 
     def read(self):
         import time
@@ -549,18 +597,25 @@ if __name__ == '__main__':
     import sys, os, time
 
     startup = time.time()
+    startup2 = time.ctime(startup).replace(" ", "-").replace(":", ".")
 
-    if not os.path.exists("logs"):
-        os.makedirs("logs")
+    if not os.path.exists("%s/logs" % os.getcwd().replace("\\", "/")):
+        os.makedirs("%s/logs" % os.getcwd().replace("\\", "/"))
+
+    if not os.path.exists("%s/errors" % os.getcwd().replace("\\", "/")):
+        os.makedirs("%s/errors" % os.getcwd().replace("\\", "/"))
+
+    log_file = time.strftime("%M-%d-%Y %H.%M.%S.log", time.gmtime(startup))
 
     # stderr = open(os.getcwd().replace("\\", "/") + "/logs/stderr-" + hex(int(startup))[2:]+".log", "w+")
     # stdout = open(os.getcwd().replace("\\", "/") + "/logs/stdout-" + hex(int(startup))[2:]+".log", "w+")
-    stderr = Log(os.getcwd().replace("\\", "/") + "/logs/stderr-" + hex(int(startup))[2:] + ".log", sys.__stderr__,
+    stderr = Log(os.getcwd().replace("\\", "/") + "/errors/" + log_file, sys.__stderr__,
                  "Err")
-    stdout = Log(os.getcwd().replace("\\", "/") + "/logs/stdout-" + hex(int(startup))[2:] + ".log", sys.__stdout__)
-    stdin = Log(os.getcwd().replace("\\", "/") + "/logs/stdout-" + hex(int(startup))[2:] + ".log", sys.__stdout__)
+    stdout = Log(os.getcwd().replace("\\", "/") + "/logs/" + log_file, sys.__stdout__)
+    stdin = Log(os.getcwd().replace("\\", "/") + "/logs/" + log_file, sys.__stdout__)
     sys.stderr = stderr
     sys.stdout = stdout
+    sys.stdin = stdin
 
     checker = Checker(state="r")
     print("[Updater]: hasInternet()=%s" % checker.hasInternet())
@@ -569,13 +624,18 @@ if __name__ == '__main__':
 
     b = checker.newest.attrib
 
-    if (not checker.isNewest()) or (not checker.hasInternet()):
+    if (not checker.isNewest()) or (not checker.hasInternet()) or \
+            ((not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/")) or not (
+                    os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
+            not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
+            not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/")))):
         app = wx.App()
-        root = wx.Frame()
-        root.Show(False)
-        a = Updater(root, checker.getUpdateURL(), checker.getXML(), b["version"], b["subversion"], b["release"],
+        # root = wx.Frame()
+        # root.Show(False)
+        a = Updater(checker.getUpdateURL(), checker.getXML(), b["version"], b["subversion"], b["release"],
                     b["state"],
                     b["statebuild"])
+        app.Destroy()
         a.run()
     else:
         Updater.run(Updater)
