@@ -605,7 +605,7 @@ if __name__ == '__main__':
     if not os.path.exists("%s/errors" % os.getcwd().replace("\\", "/")):
         os.makedirs("%s/errors" % os.getcwd().replace("\\", "/"))
 
-    log_file = time.strftime("%M-%d-%Y %H.%M.%S.log", time.gmtime(startup))
+    log_file = time.strftime("%m-%d-%Y %H.%M.%S.log", time.gmtime(startup))
 
     # stderr = open(os.getcwd().replace("\\", "/") + "/logs/stderr-" + hex(int(startup))[2:]+".log", "w+")
     # stdout = open(os.getcwd().replace("\\", "/") + "/logs/stdout-" + hex(int(startup))[2:]+".log", "w+")
