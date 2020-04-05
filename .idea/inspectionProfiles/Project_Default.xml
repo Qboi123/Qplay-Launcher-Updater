@@ -1,0 +1,128 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyCompatibilityInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ourVersions">
+        <value>
+          <list size="1">
+            <item index="0" class="java.lang.String" itemvalue="3.7" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="2">
+            <item index="0" class="java.lang.String" itemvalue="past" />
+            <item index="1" class="java.lang.String" itemvalue="opensimplex" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyPep8Inspection" enabled="true" level="WEAK WARNING" enabled_by_default="true">
+      <option name="ignoredErrors">
+        <list>
+          <option value="E731" />
+          <option value="E722" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PySameParameterValueInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="utils.position.Position3D.z" />
+          <option value="utils.position.Position3D.y" />
+          <option value="utils.position.Position3D.x" />
+          <option value="utils.position.Position2D.y" />
+          <option value="utils.position.Position2D.x" />
+          <option value="utils.position.other_y" />
+          <option value="utils.position.other_x" />
+          <option value="textures.TexturePackImplementation.read_file" />
+          <option value="textures.TexturePackImplementation.is_compatible" />
+          <option value="textures.PIL" />
+          <option value="utils.rt" />
+          <option value="utils.rotation.Rotation3D.z" />
+          <option value="utils.rotation.Rotation3D.y" />
+          <option value="utils.rotation.Rotation3D.x" />
+          <option value="utils.rotation.other_y" />
+          <option value="utils.rotation.other_x" />
+          <option value="utils.rotation.Rotation2D.y" />
+          <option value="utils.rotation.Rotation2D.x" />
+          <option value="world.savemanager.loaded_world" />
+          <option value="dict.__setitem__" />
+          <option value="world.World.shader" />
+          <option value="world.shader" />
+          <option value="world.noise" />
+          <option value="world.generation.simplex_noise2" />
+          <option value="world.generation.z" />
+          <option value="world.generation.x" />
+          <option value="pyglet.image.AbstractImage.texture" />
+          <option value="type.command" />
+          <option value="controllers.GameController.debug_text" />
+          <option value="blocks.CropBlock.max_growth_stage" />
+          <option value="blocks.cmp" />
+          <option value="item.get_item" />
+          <option value="item.BlockID" />
+          <option value="item.G" />
+          <option value="block.CropBlock.max_growth_stage" />
+          <option value="block.textures" />
+          <option value="block.entity" />
+          <option value="sounds" />
+          <option value="globals" />
+          <option value="utils.extract_nbt" />
+          <option value="utils.make_nbt_from_dict" />
+          <option value="utils.load_image" />
+          <option value="cameras.sinf" />
+          <option value="cameras.cosf" />
+          <option value="pyglet.media.drivers.silent" />
+          <option value="blocks.glassBlock.name" />
+          <option value="blocks.glassBlock.unbreakable" />
+          <option value="blocks.glassBlock.textures" />
+          <option value="blocks.grassBlock.name" />
+          <option value="blocks.grassBlock.unbreakable" />
+          <option value="blocks.grassBlock.textures" />
+          <option value="blocks.dirtBlock.name" />
+          <option value="blocks.dirtBlock.unbreakable" />
+          <option value="blocks.dirtBlock.textures" />
+          <option value="blocks.planksBlock.name" />
+          <option value="blocks.planksBlock.unbreakable" />
+          <option value="blocks.planksBlock.textures" />
+          <option value="blocks.bedrockBlock.name" />
+          <option value="blocks.bedrockBlock.unbreakable" />
+          <option value="blocks.bedrockBlock.textures" />
+          <option value="blocks.cobbleStone.name" />
+          <option value="blocks.cobbleStone.unbreakable" />
+          <option value="blocks.cobbleStone.textures" />
+          <option value="tuple.__setitem__" />
+          <option value="base.block.unbreakable" />
+          <option value="base.block.transparency" />
+          <option value="pyrr" />
+          <option value="block.name" />
+          <option value="scene.scenemanager.pyglet_gui" />
+          <option value="subprocess.COMMAND_ERROR_COLOR" />
+          <option value="subprocess.CommandException" />
+          <option value="subprocess.COMMAND_HANDLED" />
+          <option value="subprocess.CommandParser" />
+          <option value="py2exe" />
+          <option value="dict.__del__" />
+          <option value="theme.elements.core" />
+          <option value="gui.AbstractInventory.max_items" />
+          <option value="main.pyglet_gui" />
+          <option value="requests" />
+          <option value="gui.ToggleButton.id" />
+          <option value="views._position" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="PyUnusedClassInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnusedFunctionInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnusedNameInspection" enabled="false" level="WARNING" enabled_by_default="false" />
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+  </profile>
+</component>
