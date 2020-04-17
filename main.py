@@ -111,8 +111,7 @@ class Updater(wx.Panel):
                 not (os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
                 not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
                 not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"))):
-            self.load = wx.ProgressDialog("Please Wait...", "")
-
+            pass
         if (not os.path.exists("%s/game/downloaded" % os.getcwd().replace("\\", "/"))) or not checker.isNewest():
             print("[Updater]: Downloading Launcher")
             launcher = self.download(url, "Downloading Launcher")
@@ -149,9 +148,12 @@ class Updater(wx.Panel):
                 file.write("True")
         if not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/")):
             import shutil
-            self.load.SetTitle("Installing...")
-            self.load.SetRange(100)
-            self.load.Update(0, "Installing...\nInstalling Pip")
+            load = wx.ProgressDialog("Please Wait...", "")
+            load.ShowModal()
+
+            load.SetTitle("Installing...")
+            load.SetRange(100)
+            load.Update(0, "Installing...\nInstalling Pip")
 
             runtime_dir = "%s/runtime" % os.getcwd().replace("\\", "/")
 
@@ -165,7 +167,7 @@ class Updater(wx.Panel):
                 exitcode = os.system("runtime\\python.exe temp/get-pip.py")
             print("Pip exited with code: %s" % exitcode)
 
-            self.load.Update(66, "Installing...\nInstalling Pip")
+            load.Update(66, "Installing...\nInstalling Pip")
 
             self.replace_in_file("%s/runtime/python37._pth" % os.getcwd().replace("\\", "/"), "#import site", "import site")
             self.replace_in_file("%s/runtime/python37._pth" % os.getcwd().replace("\\", "/"), ".\n",
@@ -196,27 +198,27 @@ runtime/winsound.pyd"""
             dlls = dlls.split("\n")
             if not os.path.exists("%s/runtime/DLLs/" % os.getcwd().replace("\\", "/")):
                 os.makedirs("%s/runtime/DLLs/" % os.getcwd().replace("\\", "/"))
-                self.load.Update(70, "Installing...\nInstalling Pip")
+                load.Update(70, "Installing...\nInstalling Pip")
 
             for file in dlls:
                 dst = file.replace("runtime/", "runtime/DLLs/")
                 shutil.copy(("%s/"+file) % os.getcwd().replace("\\", "/"), ("%s/"+dst) % os.getcwd().replace("\\", "/"))
-            self.load.Update(81, "Installing...\nInstalling Pip")
+            load.Update(81, "Installing...\nInstalling Pip")
 
 
             if not os.path.exists(runtime_dir+'/Lib/tkinter'):
                 shutil.move(runtime_dir+"/tkinter", runtime_dir+"/Lib")
             # with open("%s/runtime/python37._pth" % os.getcwd().replace("\\", "/"), "r") as file:
             #     a = file.read()
-            #     self.load.Update(77, "Installing...\nInstalling Pip")
+            #     load.Update(77, "Installing...\nInstalling Pip")
             # with open("%s/runtime/python37._pth" % os.getcwd().replace("\\", "/"), "w") as file:
             #     a = a.replace("#import site", "import site")
             #     file.write(a)
-            #     self.load.Update(88, "Installing...\nInstalling Pip")
+            #     load.Update(88, "Installing...\nInstalling Pip")
             # with open("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"), "w+") as file:
             #     file.write("True")
 
-            self.load.Update(82, "Installing...\nInstalling Pip: \nExtracing Python Runtime Library")
+            load.Update(82, "Installing...\nInstalling Pip: \nExtracing Python Runtime Library")
 
 
             with open("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"), "w+") as file:
@@ -227,7 +229,7 @@ runtime/winsound.pyd"""
                 os.path.exists("%s/runtime/downloaded" % os.getcwd().replace("\\", "/")))) or (
                 not os.path.exists("%s/runtime/tkinter_downloaded" % os.getcwd().replace("\\", "/"))) or (
                 not os.path.exists("%s/runtime/pip_installed" % os.getcwd().replace("\\", "/"))):
-            self.load.Destroy()
+            load.Destroy()
 
         if (not os.path.exists("%s/game/patched" % os.getcwd().replace("\\", "/")))  or not checker.isNewest():
             print("[Updater]: Patching Launcher")
@@ -241,14 +243,13 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
             with open("%s/game/patched" % os.getcwd().replace("\\", "/"), "w+") as file:
                 file.write("True")
                 file.close()
-        if not os.path.exists("%s/runtime/packages_installed" % os.getcwd().replace("\\", "/")):
-            with open("%s/game/requirements.txt" % os.getcwd().replace("\\", "/"), "r") as file:
-                print("[Updater]: Installing Libraries")
-                self.install_libraries(file.read())
-                file.close()
-            with open("%s/runtime/packages_installed" % os.getcwd().replace("\\", "/"), "w+") as file:
-                file.write("True")
-                file.close()
+        with open("%s/game/requirements.txt" % os.getcwd().replace("\\", "/"), "r") as file:
+            print("[Updater]: Installing Libraries")
+            self.install_libraries(file.read())
+            file.close()
+        with open("%s/runtime/packages_installed" % os.getcwd().replace("\\", "/"), "w+") as file:
+            file.write("True")
+            file.close()
 
         with open("%s/updates.xml" % os.getcwd().replace("\\", "/"), "w+") as file:
             file.write(xml)
@@ -265,6 +266,9 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         import os
         import shutil
 
+        load = wx.ProgressDialog("Please Wait...", "")
+        load.ShowModal()
+
         if st == "a":
             copy = "%s.%s.%s-%s.%s" % (v, sv, r, "alpha", stb)
         elif st == "b":
@@ -276,9 +280,9 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         else:
             copy = None
 
-        self.load.SetTitle("Extracting...")
-        self.load.SetRange(100)
-        self.load.Update(0, "Extracing...\n" + message)
+        load.SetTitle("Extracting...")
+        load.SetRange(100)
+        load.Update(0, "Extracing...\n" + message)
 
         zip_file = zipfile.ZipFile(file)
         if copy is not None:
@@ -286,9 +290,9 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
             print("[Checking]:", folder)
             if folder == "Qplay-Launcher-":
                 shutil.rmtree('%s/game' % os.getcwd().replace("\\", "/"), ignore_errors=True)
-            self.load.Update(1, "Extracing...\n" + message)
+            load.Update(1, "Extracing...\n" + message)
             zip_file.extractall("%s/temp" % os.getcwd().replace("\\", "/"))
-            self.load.Update(98, "Extracing...\n" + message)
+            load.Update(98, "Extracing...\n" + message)
             print(("%s/temp/" + folder + "%s") % (os.getcwd().replace("\\", "/"), copy), dir)
             if folder == "Tkinter-Python-":
                 for item in os.listdir(("%s/temp/" + folder + "%s") % (os.getcwd().replace("\\", "/"), copy)):
@@ -302,18 +306,21 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         else:
             if not os.path.exists(dir):
                 os.makedirs(dir)
-            self.load.Update(99, "Extracing...\n" + message)
+            load.Update(99, "Extracing...\n" + message)
             zip_file.extractall(dir)
 
-        self.load.Update(100, "Extracing...\n" + message)
+        load.Update(100, "Extracing...\n" + message)
 
     def download(self, url, message="Downloading Launcher", wait=False, fp=None):
         import random
         import os
 
-        self.load.SetTitle("Downloading...")
-        self.load.SetRange(100)
-        self.load.Update(0, "Downloading...\n" + message)
+        load = wx.ProgressDialog("Please Wait...", "")
+        load.ShowModal(True)
+
+        load.SetTitle("Downloading...")
+        load.SetRange(100)
+        load.Update(0, "Downloading...\n" + message)
 
         value = random.randint(0x100000000000, 0xffffffffffff)
         if fp is None:
@@ -327,13 +334,13 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         download = Download(url, "%s/temp/%s" % (os.getcwd().replace("\\", "/"), filepath))
         # Thread(None, download.download, "DownloadThread")
 
-        self.load.SetRange(download.file_total_bytes + 1)
+        load.SetRange(download.file_total_bytes + 1)
         while not download.downloaded:
             # print("Downloaded: ", download.file_downloaded_bytes)
             # print("Total: ", download.file_total_bytes)
             try:
-                self.load.SetRange(download.file_total_bytes + 1)
-                self.load.Update(download.file_downloaded_bytes, "Downloading...\n" + message)
+                load.SetRange(download.file_total_bytes + 1)
+                load.Update(download.file_downloaded_bytes, "Downloading...\n" + message)
             except wx._core.wxAssertionError:
                 pass
 
@@ -350,7 +357,7 @@ sys.path.append(os.getcwd().replace("\\\\", "/"))
         requirements = requirements.replace("\n", " ")
         print("[Run-Pip]: Installing Packages: %s" % req)
         application = '"%s/runtime/python.exe"' % os.getcwd().replace("\\", "/")
-        args = " -m pip install "+requirements
+        args = " -m pip install "+requirements.replace("\n", " ")
         cmd = application+args
 
         print("[Run-Pip]: %s" % cmd)
