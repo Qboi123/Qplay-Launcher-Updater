@@ -12,3 +12,6 @@ bin bin
 bin bint
 bin.old
 bin2
+*.pb
+.idea/
+*.iml

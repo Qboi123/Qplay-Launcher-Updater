@@ -100,6 +100,18 @@ class Checker(object):
 
 class Updater(wx.Panel):
     def __init__(self, url, xml, version, subversion, release, state, statebuild):
+        """
+        Updater for Qplay Launcher.
+        LOL
+
+        :param url:
+        :param xml:
+        :param version:
+        :param subversion:
+        :param release:
+        :param state:
+        :param statebuild:
+        """
         import os
         v = version
         sv = subversion
